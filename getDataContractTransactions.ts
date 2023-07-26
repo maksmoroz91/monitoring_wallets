@@ -1,10 +1,9 @@
 export async function getDataContractTransactions(contractAddress: string): Promise<dataTransaction[] | null>{
-    const url = `https://apilist.tronscan.org/api/contract/events?contract=${contractAddress}`;
-    const response = await fetch(url);
+    const responseDataTransactions: Response = await fetch(`https://apilist.tronscan.org/api/contract/events?contract=${contractAddress}`);
 
-    if (response.ok) {
-        const transactions = await response.json();
-        return transactions.data;
+    if (responseDataTransactions.ok) {
+        const dataTransactions = await responseDataTransactions.json();
+        return dataTransactions.data;
     }
 
     return null;
