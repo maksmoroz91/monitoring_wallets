@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Contract {
+  id      Int    @id @default(autoincrement())
+  address String @unique
+}
+
+model Transaction {
+  id          Int     @id @default(autoincrement())
+  amount      String
+  fromAddress String
+  decimals    Int
+  tokenName   String
+  toAddress   String
+  block       Int
+  confirmed   Boolean
+  hash        String
+  timestamp   BigInt
+}
+
+model Wallet {
+  id              Int    @id @default(autoincrement())
+  address         String @unique
+  tokenCount      Int
+  countAllTokens  Json
+  totalBalanceUSD Float
+}
