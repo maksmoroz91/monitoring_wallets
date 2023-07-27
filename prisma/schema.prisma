@@ -21,7 +21,7 @@ model Transaction {
   toAddress   String
   block       Int
   confirmed   Boolean
-  hash        String
+  hash        String  @unique
   timestamp   BigInt
 }
 

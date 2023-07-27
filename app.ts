@@ -11,21 +11,23 @@ export const prisma = new PrismaClient();
 let contractAddress: string;
 
 async function main(): Promise<void> {
-    if (!contractAddress) {
-        contractAddress = await initAddress();
-    }
+    while (true) {
+        if (!contractAddress) {
+            contractAddress = await initAddress();
+        }
 
-    const dataTransactions: dataTransaction[] | null = await getDataContractTransactions(contractAddress);
+        const dataTransactions: dataTransaction[] | null = await getDataContractTransactions(contractAddress);
 
-    if (dataTransactions) {
-        for (let data of dataTransactions) {
-            await saveTransactionData(data);
-            const { transferFromAddress, transferToAddress }: { transferFromAddress: string, transferToAddress: string } = data;
-            const dataFromAddress: ReturnedObject | null = await getDataWallet(transferFromAddress);
-            const dataToAddress: ReturnedObject | null = await getDataWallet(transferToAddress);
+        if (dataTransactions) {
+            for (let data of dataTransactions) {
+                await saveTransactionData(data);
+                const { transferFromAddress, transferToAddress }: { transferFromAddress: string, transferToAddress: string } = data;
+                const dataFromAddress: ReturnedObject | null = await getDataWallet(transferFromAddress);
+                const dataToAddress: ReturnedObject | null = await getDataWallet(transferToAddress);
 
-            if (dataFromAddress) await saveWalletData(transferFromAddress, dataFromAddress);
-            if (dataToAddress) await saveWalletData(transferToAddress, dataToAddress);
+                if (dataFromAddress) await saveWalletData(transferFromAddress, dataFromAddress);
+                if (dataToAddress) await saveWalletData(transferToAddress, dataToAddress);
+            }
         }
     }
 }
@@ -34,7 +36,5 @@ async function initAddress(): Promise<string> {
     const promiseContract: Contract =  await getContract();
     return promiseContract.address;
 }
-
-
 
 main();

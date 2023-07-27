@@ -12,12 +12,12 @@ export async function getDataContractTransactions(contractAddress: string): Prom
 export interface dataTransaction {
     amount: string;
     transferFromAddress: string;
-    data: string;
+    data?: string;
     decimals: number;
     tokenName: string;
     transferToAddress: string;
     block: number;
-    id: string;
+    id?: string;
     confirmed: boolean;
     transactionHash: string;
     timestamp: number;
