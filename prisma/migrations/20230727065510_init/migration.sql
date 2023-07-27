@@ -28,7 +28,7 @@ CREATE TABLE `Wallet` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `address` VARCHAR(191) NOT NULL,
     `tokenCount` INTEGER NOT NULL,
-    `countAllTokens` JSON NOT NULL,
+    `balanceOfEachToken` JSON NOT NULL,
     `totalBalanceUSD` DOUBLE NOT NULL,
 
     UNIQUE INDEX `Wallet_address_key`(`address`),

@@ -6,22 +6,26 @@ export async function getDataWallet(walletAddress: string): Promise<ReturnedObje
 
     if (responseDataWallet.ok) {
         const dataWallet = await responseDataWallet.json();
-        const tokenCount: number  = dataWallet.tokens.length;
-        const countAllTokens: CountToken = {};
+        const balanceOfEachToken: CountToken = {};
+        let tokenCount: number;
         let totalBalanceTrx: number  = 0
         let totalBalanceUSD: number;
 
         for (let token of dataWallet.tokens) {
-            countAllTokens[token.tokenName] = token.balance / (10 ** token.tokenDecimal);
+            if (token.tokenPriceInTrx) {
+                const balance:number = token.balance / (10 ** token.tokenDecimal);
+                balanceOfEachToken[token.tokenName] = Number(balance.toFixed(2));
 
-            if (token.amount) {
-                totalBalanceTrx += Number(token.amount);
+                if (token.amount) {
+                    totalBalanceTrx += Number(token.amount);
+                }
             }
         }
 
-        totalBalanceUSD = totalBalanceTrx * trxPriceInUSD;
+        totalBalanceUSD = Number((totalBalanceTrx * trxPriceInUSD).toFixed(2));
+        tokenCount = Object.keys(balanceOfEachToken).length
 
-        return {tokenCount, countAllTokens, totalBalanceUSD}
+        return {tokenCount, balanceOfEachToken, totalBalanceUSD}
     }
 
     return null;
@@ -33,6 +37,6 @@ interface CountToken {
 
 interface ReturnedObject {
     tokenCount: number;
-    countAllTokens: CountToken;
+    balanceOfEachToken: CountToken;
     totalBalanceUSD: number;
 }

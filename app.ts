@@ -14,8 +14,8 @@ async function main() {
 
     if (dataWallet) {
         console.log(`Количество токенов: ${dataWallet.tokenCount}`)
-        console.log(`Количество каждого токена: ${JSON.stringify(dataWallet.countAllTokens)}`);
-        console.log(`Общая стоимость в $: ${dataWallet.totalBalanceUSD.toFixed(2)}`)
+        console.log(`Баланс каждого токена: ${JSON.stringify(dataWallet.balanceOfEachToken)}`);
+        console.log(`Общая стоимость в $: ${dataWallet.totalBalanceUSD}`)
     }
 }
 

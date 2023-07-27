@@ -22,9 +22,9 @@ model Transaction {
 }
 
 model Wallet {
-  id              Int    @id @default(autoincrement())
-  address         String @unique
-  tokenCount      Int
-  countAllTokens  Json
-  totalBalanceUSD Float
+  id                 Int    @id @default(autoincrement())
+  address            String @unique
+  tokenCount         Int
+  balanceOfEachToken Json
+  totalBalanceUSD    Float
 }
