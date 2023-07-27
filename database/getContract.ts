@@ -1,6 +1,7 @@
-import {Contract, PrismaClient} from "@prisma/client";
+import {Contract} from "@prisma/client";
+import {prisma} from "../app";
 
-export async function getContract(prisma: PrismaClient): Promise<Contract> {
+export async function getContract(): Promise<Contract> {
     const contractAddress = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
 
     const existingAddress: Contract | null = await prisma.contract.findUnique({

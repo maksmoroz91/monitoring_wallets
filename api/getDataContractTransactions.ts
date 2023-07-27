@@ -9,7 +9,7 @@ export async function getDataContractTransactions(contractAddress: string): Prom
     return null;
 }
 
-interface dataTransaction {
+export interface dataTransaction {
     amount: string;
     transferFromAddress: string;
     data: string;

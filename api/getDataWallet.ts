@@ -35,7 +35,7 @@ interface CountToken {
     [key: string]: number;
 }
 
-interface ReturnedObject {
+export interface ReturnedObject {
     tokenCount: number;
     balanceOfEachToken: CountToken;
     totalBalanceUSD: number;

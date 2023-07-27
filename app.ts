@@ -1,22 +1,40 @@
-import {getDataContractTransactions} from "./getDataContractTransactions";
-import {getDataWallet} from "./getDataWallet";
+import {Contract, PrismaClient, Wallet} from "@prisma/client";
+import {dataTransaction, getDataContractTransactions} from "./api/getDataContractTransactions";
+import {getDataWallet, ReturnedObject} from "./api/getDataWallet";
+import {getContract} from "./database/getContract";
+import {saveTransactionData} from "./database/saveTransactionData";
+import {saveWalletData} from "./database/saveWalletData";
 
-const contractAddress = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
-const walletAddress = 'TYZer2VkmieEh3SXCunYSZ9m8gGxLyEHoe';
 
-async function main() {
-    const dataTransactions = await getDataContractTransactions(contractAddress);
-    const dataWallet = await getDataWallet(walletAddress);
+
+export const prisma = new PrismaClient();
+let contractAddress: string;
+
+async function main(): Promise<void> {
+    if (!contractAddress) {
+        contractAddress = await initAddress();
+    }
+
+    const dataTransactions: dataTransaction[] | null = await getDataContractTransactions(contractAddress);
 
     if (dataTransactions) {
-        console.log(dataTransactions);
-    }
+        for (let data of dataTransactions) {
+            await saveTransactionData(data);
+            const { transferFromAddress, transferToAddress }: { transferFromAddress: string, transferToAddress: string } = data;
+            const dataFromAddress: ReturnedObject | null = await getDataWallet(transferFromAddress);
+            const dataToAddress: ReturnedObject | null = await getDataWallet(transferToAddress);
 
-    if (dataWallet) {
-        console.log(`Количество токенов: ${dataWallet.tokenCount}`)
-        console.log(`Баланс каждого токена: ${JSON.stringify(dataWallet.balanceOfEachToken)}`);
-        console.log(`Общая стоимость в $: ${dataWallet.totalBalanceUSD}`)
+            if (dataFromAddress) await saveWalletData(transferFromAddress, dataFromAddress);
+            if (dataToAddress) await saveWalletData(transferToAddress, dataToAddress);
+        }
     }
 }
+
+async function initAddress(): Promise<string> {
+    const promiseContract: Contract =  await getContract();
+    return promiseContract.address;
+}
+
+
 
 main();

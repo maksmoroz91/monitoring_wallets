@@ -1,8 +1,5 @@
 {
   "name": "monitoring_wallets",
-  "engines": {
-    "node": ">=18"
-  },
   "version": "1.0.0",
   "description": "",
   "main": "app.ts",
