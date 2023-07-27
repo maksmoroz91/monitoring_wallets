@@ -20,6 +20,7 @@ CREATE TABLE `Transaction` (
     `hash` VARCHAR(191) NOT NULL,
     `timestamp` BIGINT NOT NULL,
 
+    UNIQUE INDEX `Transaction_hash_key`(`hash`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

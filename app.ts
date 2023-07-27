@@ -1,4 +1,4 @@
-import {Contract, PrismaClient, Wallet} from "@prisma/client";
+import {Contract, PrismaClient} from "@prisma/client";
 import {dataTransaction, getDataContractTransactions} from "./api/getDataContractTransactions";
 import {getDataWallet, ReturnedObject} from "./api/getDataWallet";
 import {getContract} from "./database/getContract";
